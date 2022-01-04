@@ -1,65 +1,26 @@
-// TODO: This query is VERY slow
-db.users.aggregate([
+db.badges.aggregate([
     {
-        '$lookup': {
-            'from': 'badges', 
-            'let': {
-            'id': '$id'
-            }, 
-            'as': 'badges', 
-            'pipeline': [
-            {
-                '$match': {
-                '$expr': {
-                    '$eq': [
-                    '$user_id', '$$id'
-                    ]
-                }
-                }
-            }, {
-                '$project': {
-                '_id': 0, 
-                'id': 0, 
-                'user_id': 0
-                }
-            }
-            ]
-        }
+      '$match': {
+        'name': 'Fanatic'
+      }
     }, {
-        '$match': {
-            'badges': {
-            '$elemMatch': {
-                'name': 'Fanatic'
-            }
-            }
-        }
+      '$lookup': {
+        'from': 'users', 
+        'localField': 'user_id', 
+        'foreignField': 'id', 
+        'as': 'user'
+      }
     }, {
-        '$project': {
-            '_id': 0, 
-            'id': 1, 
-            'display_name': 1, 
-            'badges': {
-            '$filter': {
-                'input': '$badges', 
-                'as': 'badge', 
-                'cond': {
-                '$eq': [
-                    '$$badge.name', 'Fanatic'
-                ]
-                }
-            }
-            }
-        }
+      '$unwind': {
+        'path': '$user'
+      }
     }, {
-        '$unwind': {
-            'path': '$badges'
-        }
-    }, {
-        '$project': {
-            'id': 1, 
-            'display_name': 1, 
-            'badge_name': '$badges.name', 
-            'date_awarded': '$badges.date'
-        }
+      '$project': {
+        '_id': 0, 
+        'user_id': '$user_id', 
+        'display_name': '$user.display_name', 
+        'badge_name': '$name', 
+        'date_awarded': '$date'
+      }
     }
-]);
+  ]);
