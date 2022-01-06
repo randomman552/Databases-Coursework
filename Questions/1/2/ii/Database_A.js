@@ -76,4 +76,4 @@ db.badges.aggregate([
         '_id': 0
       }
     }
-  ], {"allowDiskUse": true});
+  ]);
