@@ -74,9 +74,5 @@ db.users.aggregate([
       'question_title': '$questions.title', 
       'comment_id': '$questions.comments.id'
     }
-  }, {
-    '$project': {
-      '_id': 0
-    }
   }
 ]);
