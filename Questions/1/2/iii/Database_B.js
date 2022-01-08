@@ -72,7 +72,7 @@ db.users.aggregate([
       'badge_date_awarded': 1, 
       'question_id': '$questions.id', 
       'question_title': '$questions.title', 
-      'comments': '$questions.comments'
+      'comment_id': '$questions.comments.id'
     }
   }, {
     '$project': {
