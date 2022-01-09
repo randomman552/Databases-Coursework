@@ -30,9 +30,9 @@ db.users.aggregate([
         }
     }, {
         '$project': {
-            'id': 1, 
-            'display_name': 1, 
-            'badge_name': '$badges.name', 
+            'user_id': "$id",
+            'display_name': 1,
+            'badge_name': '$badges.name',
             'date_awarded': '$badges.date'
         }
     }
