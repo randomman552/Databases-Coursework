@@ -5,6 +5,9 @@ CREATE CONSTRAINT ON (n:Question) ASSERT n.id IS UNIQUE;
 CREATE CONSTRAINT ON (n:Answer) ASSERT n.id IS UNIQUE;
 CREATE CONSTRAINT ON (n:Comment) ASSERT n.id IS UNIQUE;
 
+// Create indices
+CREATE INDEX badge_name FOR (n:Badge) ON (n.name)
+
 // Load Users
 LOAD CSV WITH HEADERS FROM "file:///users.csv" AS r
 WITH r, toInteger(r.id) AS userID
